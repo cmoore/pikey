@@ -17,4 +17,3 @@
   
   :build-pathname "pikey"
   :entry-point "pikey:main")
-
