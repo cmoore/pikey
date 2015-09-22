@@ -1,18 +1,26 @@
 
 (in-package #:pikey)
 
-(eval-when (:compile-toplevel :load-toplevel)
-  (defpsmacro gebi (element-id)
-    `((@ document get-Element-By-Id) ,element-id)))
-
 (defun main ()
   (let* ((args (apply-argv:parse-argv (cdr sb-ext:*posix-argv*)))
          (in-file (getf args :i))
          (out-file (getf args :o))
-         (load-file (getf args :l)))
-    (when (probe-file load-file)
+         (standard (truename
+                    (asdf:system-relative-pathname :pikey "std.lisp"))))
+    
+    (unless (and in-file out-file)
+      (format t "Need two files.~%")
+      (sb-ext:quit))
+
+    (when (probe-file "macros.lisp")
       (setf *load-verbose* t)
       (setf *load-print* t)
-      (load load-file))
-    (with-open-file (f out-file :if-exists :supersede :direction :output)
-      (write-string (ps:ps-compile-file in-file) f))))
+      (load "macros.lisp"))
+    
+    (when (probe-file standard)
+      (setf *load-verbose* t)
+      (setf *load-print* t)
+      (load standard))
+    (ignore-errors
+     (with-open-file (f out-file :if-exists :supersede :direction :output)
+       (write-string (ps:ps-compile-file in-file) f)))))
