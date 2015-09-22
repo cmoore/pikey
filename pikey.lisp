@@ -1,6 +1,12 @@
 
 (in-package #:pikey)
 
+(defmacro uwotm8 (file)
+  `(when (probe-file ,file)
+     (setf *load-verbose* t)
+     (setf *load-print* t)
+     (load ,file)))
+
 (defun main ()
   (let* ((args (apply-argv:parse-argv (cdr sb-ext:*posix-argv*)))
          (in-file (getf args :i))
@@ -12,15 +18,9 @@
       (format t "Need two files.~%")
       (sb-ext:quit))
 
-    (when (probe-file "macros.lisp")
-      (setf *load-verbose* t)
-      (setf *load-print* t)
-      (load "macros.lisp"))
+    (uwotm8 "macros.lisp")
+    (uwotm8 standard)
     
-    (when (probe-file standard)
-      (setf *load-verbose* t)
-      (setf *load-print* t)
-      (load standard))
     (ignore-errors
      (with-open-file (f out-file :if-exists :supersede :direction :output)
        (write-string (ps:ps-compile-file in-file) f)))))
