@@ -3,8 +3,7 @@
 
 Pikey is a Javascript compiler using Parenscript.
 
-It's work in progress.  To build it, you need SBCL and quicklisp.  Then check the source out in `~/quicklisp/local-projects`, and finally do `sbcl --load build.lisp` in the pikey directory.
-
+It's work in progress.  To build it, you need SBCL and quicklisp.  Then check the source out in `~/quicklisp/local-projects`, and finally do `sbcl --load build.lisp` in the pikey directory.  Then you can copy the pikey executable wherever you like.
 
 ## Usage
 
@@ -44,5 +43,5 @@ $(document).ready(function () {
 
 ### Powah
 
-For better or worse, Pikey is a complete Common Lisp image.  You could, potentially, use everything, including load Quicklisp with it.
+For better or worse, Pikey is a complete Common Lisp image.  You could, potentially, use everything, including load Quicklisp with it and use reader macros in your `macros.lisp` file.
 
