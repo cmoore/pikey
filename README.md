@@ -45,3 +45,6 @@ $(document).ready(function () {
 
 For better or worse, Pikey is a complete Common Lisp image.  You could, potentially, use everything, including load Quicklisp with it and use reader macros in your `macros.lisp` file.
 
+### Included Systems
+
+[uiop](http://quickdocs.org/uiop), [cl-fad](http://quickdocs.org/cl-fad/), [cl-ppcre](http://quickdocs.org/cl-ppcre), and [cl-who](http://quickdocs.org/cl-who)

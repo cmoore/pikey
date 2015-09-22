@@ -9,7 +9,8 @@
   
   :depends-on (#:cl-fad
                #:apply-argv
-               #:parenscript)
+               #:parenscript
+               #:cl-who)
   
   :components ((:file "package")
                (:file "pikey"))
