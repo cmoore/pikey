@@ -8,7 +8,9 @@ It's work in progress.  To build it, you need SBCL and quicklisp.  Then check th
 
 ## Usage
 
-`pikey -l <cl source> -i <parenscript> -o <javascript>`
+`pikey -v -l <cl source> -i <parenscript> -o <javascript>`
+
+`-v` - Turn on verbose mode.  Sets `*load-verbose*` and `*load-print*` to `t` before loading the Common Lisp source.
 
 `-l <file>` - (optional) Load *Common Lisp* forms from this file before parsing the source.
 
