@@ -8,7 +8,9 @@ It's work in progress.  To build it, you need SBCL and quicklisp.  Then check th
 
 ## Usage
 
-`pikey -l <cl source> -i <parenscript> -o <javascript>`
+`pikey -v -l <cl source> -i <parenscript> -o <javascript>`
+
+`-v` - Turn on verbose mode.  Sets `*load-verbose*` and `*load-print*` to `t` before loading the Common Lisp source.
 
 `-l <file>` - (optional) Load *Common Lisp* forms from this file before parsing the source.
 
@@ -66,6 +68,22 @@ $('#login').on('clicked', function (event) {
 });
 
 ```
+### Debugging
+
+You might want to debug the syntax of your macros, especially if you're starting out.  Here's a quick way to make sure you have at least the syntax of your macros correct.
+
+``` common-lisp
+;; You'll need sbcl and quicklisp installed for this.
+;; Make sure that your file loads pikey and sets it as the current package.
+
+(ql:quickload 'pikey)
+(in-package :pikey)
+
+```
+
+Then you can test the syntax from the command line with:
+
+`sbcl --non-interactive --load yourfile.lisp`
 
 ### Powah
 
