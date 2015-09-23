@@ -1,3 +1,4 @@
+[![Join the chat at https://gitter.im/cmoore/pikey](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cmoore/pikey?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ![](dags.jpg)
 
@@ -6,8 +7,6 @@ Pikey is a Javascript compiler using Parenscript.
 It's work in progress.  To build it, you need SBCL and quicklisp.  Then check the source out in `~/quicklisp/local-projects`, and finally do `sbcl --load build.lisp` in the pikey directory.  Then you can copy the pikey executable wherever you like.
 
 ## Usage
-
-[![Join the chat at https://gitter.im/cmoore/pikey](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cmoore/pikey?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 `pikey -l <cl source> -i <parenscript> -o <javascript>`
 
