@@ -9,7 +9,7 @@ It's work in progress.  To build it, you need SBCL and quicklisp.  Then check th
 
 `pikey -l macros.lisp -i <infile> -o <outfile>`
 
-`-l <file>` - Load *Common Lisp* forms from this file before parsing the source.
+`-l <file>` - (optional) Load *Common Lisp* forms from this file before parsing the source.
 
 Note that there is a distinction between Common Lisp forms and Parenscript forms in this context.  It's probably a good idea to follow the link in the next section and get familiar with Parenscript, or go take a look at the wiki to get a sense of the difference.
 
