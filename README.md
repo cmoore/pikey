@@ -7,7 +7,7 @@ It's work in progress.  To build it, you need SBCL and quicklisp.  Then check th
 
 ## Usage
 
-`pikey -l macros.lisp -i <infile> -o <outfile>`
+`pikey -l <cl source> -i <parenscript> -o <javascript>`
 
 `-l <file>` - (optional) Load *Common Lisp* forms from this file before parsing the source.
 
@@ -25,16 +25,25 @@ https://common-lisp.net/project/parenscript/reference.html#reserved-symbols
 
 This is really the whole reason for using Pikey.
 
-Pikey will load macros from `macros.lisp` in the current working directory.
+You can add forms to Pikey's namespace (`:pikey`) with the `-l` file.
 
 So, for instance, if `macros.lisp` contains
 
 ``` lisp
 (in-package :pikey) ;; This is required in your macros and source.
 
-(defmacro+ps dr (&rest body)
-  `((@ ($ document) ready) (lambda ()
-                             ,@body)))
+(defmacro+ps sel (name)
+  `($ ,name))
+
+(defmacro+ps $. (name)
+  `(@ (sel ,name)))
+
+(defmacro+ps -> (name function &rest args)
+  `((@ ,name ,function) ,@args))
+  
+(defmacro+ps on (what event &rest body)
+  `((@ ,what on) ,event ,@body))
+
 ```
 
 and your source file contains
@@ -42,15 +51,19 @@ and your source file contains
 ``` lisp
 (in-package :pikey)
 
-(dr (defvar x 1))
+(on ($. "#login") "clicked" (lambda (event)
+                              (-> console log (+ "Event: " event))))
+
 ```
 
 `pikey -i source.lisp -o test.js` will produce
 
 ``` javascript
-$(document).ready(function () {
-    var x = 1;
+
+$('#login').on('clicked', function (event) {
+  return console.log('Event: ' + event);
 });
+
 ```
 
 ### Powah
