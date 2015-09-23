@@ -56,7 +56,7 @@ and your source file contains
 
 ```
 
-`pikey -i source.lisp -o test.js` will produce
+`pikey -l macros.lisp -i source.lisp -o test.js` will produce
 
 ``` javascript
 
