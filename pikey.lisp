@@ -8,15 +8,16 @@
          (out-file (getf args :o))
          (verbose (getf args :v)))
 
-    (when (probe-file load-from)
+    (when (ignore-errors (probe-file load-from))
       (when verbose
         (setf *load-verbose* t)
         (setf *load-print* t))
       (load load-from))
     
     (unless (and in-file out-file)
-      (format t "Need two files.~%")
-      (sb-ext:quit))
+      (princ
+       (format nil "Usage: pikey -l <optional macros file> -i <parenscript> -o <javascript>~%"))
+      (sb-ext:exit))
     
     (with-open-file (f out-file :if-exists :supersede :direction :output)
       (write-string (ps:ps-compile-file in-file) f))))
