@@ -1,4 +1,3 @@
-;;;; pikey.asd
 
 (asdf:defsystem #:pikey
   :description "Describe pikey here"
@@ -8,12 +7,23 @@
 
   
   :depends-on (#:cl-fad
-               #:apply-argv
                #:parenscript
+
+               #:drakma
+               #:jsown
+
+               #:hunchensocket
+               #:hunchentoot
+
+               #:apply-argv
                #:cl-who)
   
-  :components ((:file "package")
-               (:file "pikey"))
+  :components ((:module "src" :components ((:file "package")
+                                           (:file "pikey")
+                                           (:file "jsmacros")
+                                           (:file "server" :depends-on ("jsmacros"))
+                                           (:file "wsockets" :depends-on ("jsmacros"))
+                                           (:file "repl" :depends-on ("server" "wsockets")))))
   
   :build-pathname "pikey"
   :entry-point "pikey:main")
