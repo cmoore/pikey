@@ -2,9 +2,9 @@
 
 ![](dags.jpg)
 
-Pikey is a Javascript compiler using Parenscript.
+Pikey is a Javascript compiler and (soon, hopefully) a live development environment for Parenscript much like cljs and figwheel.  Results may vary.
 
-It's work in progress.  To build it, you need SBCL and quicklisp.  Then check the source out in `~/quicklisp/local-projects`, and finally do `sbcl --load build.lisp` in the pikey directory.  Then you can copy the pikey executable wherever you like.
+To build it, you need SBCL and quicklisp.  Then check the source out in `~/quicklisp/local-projects`, and finally do `sbcl --load build.lisp` in the pikey directory.  Then you can copy the pikey executable wherever you like.
 
 ## Usage
 
