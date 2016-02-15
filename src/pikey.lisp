@@ -9,6 +9,8 @@
          (out-file (getf args :o))
          (verbose (getf args :v)))
 
+    (princ (format nil "Rep: ~a" repl))
+    
     (if repl
         (repl-mode)
         (progn

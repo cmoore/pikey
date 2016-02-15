@@ -48,66 +48,72 @@
       `(progn
          (defun ws-connect ))))
 
-
 ;;
 ;; An almost line by line copy of https://www.websocket.org/echo.html
 ;;
+
 (define-easy-handler (ws-test :uri "/testing") ()
   (with-page
-      (:html (:head
-               (:meta :charset "utf-8")
-               (:title "testing testy")
-               (:script :src "https://code.jquery.com/jquery-2.1.4.min.js")
-               (:script :type "text/javascript"
-                 (str (ps
+      (:html
+        (:head
+          (:meta :charset "utf-8")
+          (:title "testing testy")
+          (:script :src "/goog/base.js")
+          (:script :type "text/javascript"
+            (str (ps
+                   (defvar ws-uri "ws://localhost:61616/pikey")
+                   (defvar output nil)
+
+                   (defun write-to-screen (b)
+                     (defvar p ((@ document create-element) "p"))
+                     (setf (@ p style wordwrap) "break-word")
+                     (setf (@ p inner-h-t-m-l) b)
+                     ((@ output append-child) p))
                         
-                        (defvar ws-uri "ws://localhost:61616/pikey")
-                        (defvar output nil)
+                   (defun init ()
+                     (setf output ((@ document get-element-by-id) "output"))
+                     (test-web-socket))
 
-                        (defun write-to-screen (b)
-                          (defvar p ((@ document create-element) "p"))
-                          (setf (@ p style wordwrap) "break-word")
-                          (setf (@ p inner-h-t-m-l) b)
-                          ((@ output append-child) p))
-                        
-                        (defun init ()
-                          (setf output ((@ document get-element-by-id) "output"))
-                          (test-web-socket))
+                   (defun test-web-socket ()
+                     (defvar websocket (new (-web-socket ws-uri)))
+                     (setf (@ websocket onopen) (lambda (e)
+                                                  (on-open e)))
+                     (setf (@ websocket onclose) (lambda (e)
+                                                   (on-close e)))
+                     (setf (@ websocket onmessage) (lambda (e)
+                                                     (on-message e)))
+                     (setf (@ websocket onerror) (lambda (e)
+                                                   (on-error e))))
 
-                        (defun test-web-socket ()
-                          (defvar websocket (new (-web-socket ws-uri)))
-                          (setf (@ websocket onopen) (lambda (e)
-                                                       (on-open e)))
-                          (setf (@ websocket onclose) (lambda (e)
-                                                        (on-close e)))
-                          (setf (@ websocket onmessage) (lambda (e)
-                                                          (on-message e)))
-                          (setf (@ websocket onerror) (lambda (e)
-                                                        (on-error e))))
+                   (defun on-open (e)
+                     ((@ console log) "CONNECT"))
 
-                        (defun on-open (e)
-                          ((@ console log) "CONNECT"))
+                   (defun on-close (e)
+                     ((@ console log) "DISCONNECT"))
 
-                        (defun on-close (e)
-                          ((@ console log) "DISCONNECT"))
+                   (defun on-message (e)
+                     ((@ console log) e)
+                     (write-to-screen (+ "I GOT A MESSAGE: " (@ e data))))
 
-                        (defun on-message (e)
-                          ((@ console log) e)
-                          (write-to-screen (+ "I GOT A MESSAGE: " (@ e data))))
+                   (defun on-error (e)
+                     (write-to-screen "I GOT AN ERROR"))
 
-                        (defun on-error (e)
-                          (write-to-screen "I GOT AN ERROR"))
+                   (defun do-send (e)
+                     ((write-to-screen) (+ "SENT: " e))
+                     ((@ websocket send) e))
 
-                        (defun do-send (e)
-                          ((write-to-screen) (+ "SENT: " e))
-                          ((@ websocket send) e))
-
-                        (with-document-ready 
-                            (progn (init)
-                                   ((@ console log) "Start.")
-                                   (write-to-screen "Staring up...")))))))
-        (:body
+                   (defun top-init ()
+                     (init)
+                     ((@ console log) "Start.")
+                     (write-to-screen "Staring up..."))))))
+        (:body :onload "topInit();"
           (:span "Well, it's a start.")
           (:div :id "output")))))
 
+;;(ql:quickload 'websocket-driver-client)
 
+(defun send-message (message)
+  (let ((client (wsd:make-client "ws://localhost:61616/pikey")))
+    (as:with-event-loop ()
+      (wsd:start-connection client)
+      (wsd:send client message))))

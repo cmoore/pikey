@@ -14,7 +14,8 @@
 
                #:hunchensocket
                #:hunchentoot
-
+               #:websocket-driver-client
+               
                #:apply-argv
                #:cl-who)
   
